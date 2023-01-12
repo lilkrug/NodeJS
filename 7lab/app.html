@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link href="http://localhost:3000/mycss/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<script  type="text/javascript" src="http://localhost:3000/myjs/script.js"/>
+<p><img src="http://htmlbook.ru/images/logo.gif" width="450" height="450" alt=""></p>
+<img src="android.jpg"/>
+<video src="myvideo/video.mp4"/>
+<a href="http://localhost:3000/mydocx/lab7.docx"/>
+<!--<div id="get_result"></div>-->
+<!--<p>Введите название файла относительно директория static</p>-->
+<!--<input type="text" id="forLink">-->
+
+<!--<button onclick="Get('forLink',$('#forLink').val())"></button>-->
+<script>
+    function Get(parameter,file){
+        console.log('GET');
+        fetch(`http://localhost:3000/${file}`)
+            .then(response=>{return response.json();})
+            .then((pdata)=>{console.log('pdata',pdata);
+                document.getElementById('get_result').innerHTML='';
+                pdata.forEach(el=>{document.getElementById(parameter).innerHTML+=(el.id+'.'+el.name+''+el.bday+'<br/>');});
+            });
+    }
+</script>
+</body>
+</html>
+<!--$('#forLink').val()-->

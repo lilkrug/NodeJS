@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+<h1>ФИО: </h1>
+<h2 id="inner"></h2>
+<script>
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'http://localhost:5000/api/name', false);
+  xhr.send();
+  let input = document.getElementById("inner");
+  if (xhr.status == 200)
+  {
+    input.innerHTML = xhr.responseText;
+    console.log(xhr.responseText);
+  }
+  else
+    console.log("Ответ сервера: " + xhr.statusText);
+</script>
+</body>
+
+
+</html>

@@ -1,0 +1,27 @@
+<!-- <html dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Lab 8. Upload files</title>
+  </head>
+  <body>
+    <form action="http://localhost:5000/upload" method="post" enctype="multipart/form-data">
+      <input type="file" name="file" class="col-5 offset-2"><br>
+      <input type="submit" name="upload" value="Upload">
+    </form>
+  </body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<form method="POST" enctype="multipart/form-data">
+    <input name="file"  type="file" style="border: 1px solid gray"/><br/>
+    <input name="send" type="submit" value="SEND"/>
+    <input   name="cancel" type="button" value="CANCEL"/>
+</form>
+</body>
+</html>

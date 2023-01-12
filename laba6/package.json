@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "nodemailer": "^6.8.0",
+    "nodemailer-smtp-transport": "^2.7.4",
+    "nodemon": "^2.0.20",
+    "sendmail": "^1.6.1",
+    "ssvv2022": "^1.0.0"
+  }
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div style="padding:20px" id="get_result">
+<div class="row">
+    <label class="col-2">Пересылаемое сообщение</label>
+    <input type="text" id="Message" name="Message" class="col-3" required/>
+</div>
+<div class="row">
+    <button id="postButton" onclick="Post()">POST</button>
+</div>
+</div>
+<script>
+function Post(){
+    console.log('POST');
+    fetch('http://localhost:3000/',{
+        method:'POST',mode:'no-cors',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body:JSON.stringify({message:Message.value})
+    }).then(response=>{return response.text();})
+        .then(pdata=>{document.getElementById('get_result').innerHTML=pdata;});
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Lab 14</title>
+</head>
+
+<body>
+<h1>Lab 14</h1>
+
+
+<div>
+    <div style="color: darkred;" id="app_error"></div>
+    <button onclick="Get()">GET</button>
+    <div>
+        <label>PULPIT: </label>
+        <input type="text" class="col-3" id="PULPIT"/>
+    </div>
+    <div>
+        <label>PULPIT_NAME: </label>
+        <input type="text" class="col-3" id="PULPIT_NAME"/>
+    </div>
+    <div>
+        <label>FACULTY: </label>
+        <input type="text" class="col-3" id="FACULTY"/>
+    </div>
+    <div>
+        <button onclick="Post()">Post</button>
+    </div>
+    <div>
+        <button onclick="Delete()">Delete</button>
+    </div>
+    <div>
+        <button onclick="Put()">Put</button>
+    </div>
+    <div id="result" content=""></div>
+<br/>
+</div>
+<script>
+    async function Get() {
+        let errElem = document.getElementById("app_error");
+        errElem.innerHTML = '';
+        fetch('http://localhost:3000/api/pulpits', {
+            
+            method: 'GET',
+            headers: {'Accept': 'application/json'}
+        }).then(response => {
+                return response.json();
+            })
+            .then(pdata => {
+
+                console.log('pdata', pdata);
+                let result = document.getElementById("result");
+                result.innerHTML = '';
+                pdata.forEach(element => {
+                    result.innerHTML += '<p>' + '<span style="color: blue;"> PULPIT: </span>' + element.PULPIT + ' <span style="color: red;"> PULPIT NAME: </span> ' + element.PULPIT_NAME + '<span style="color: green;"> FACULTY: </span>' + element.FACULTY + '</p>';
+                });
+            });
+    }
+
+    function Post() {
+        let PULPIT = document.getElementById("PULPIT");
+        let PULPIT_NAME = document.getElementById("PULPIT_NAME");
+        let FACULTY = document.getElementById("FACULTY");
+        let errElem = document.getElementById("app_error")
+        fetch('http://localhost:3000/api/pulpits', {
+            method: 'POST',
+            mode: "no-cors",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(
+                {
+                    PULPIT: PULPIT.value,
+                    PULPIT_NAME: PULPIT_NAME.value,
+                    FACULTY: FACULTY.value
+                }
+            )
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(pdate => {
+                console.log('POST.pdate', pdate);
+                if (typeof(pdate.error) != 'undefined' && pdate.error != null) {
+                    errElem.innerHTML = pdate.error;
+                }
+            }).then(Get());
+
+    }
+
+    function Delete() {
+        let PULPIT = document.getElementById("PULPIT");
+        fetch(`http://localhost:3000/api/pulpits/${PULPIT.value}`, {
+            method: 'DELETE',
+            headers: {
+                'Access-Control-Request-Method': 'DELETE'
+            }
+        }).then(Get())
+    }
+
+    function Put() {
+        let PULPIT = document.getElementById("PULPIT");
+        let PULPIT_NAME = document.getElementById("PULPIT_NAME");
+        let FACULTY = document.getElementById("FACULTY");
+        fetch('http://localhost:3000/api/pulpits', {
+            method: 'PUT',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: JSON. stringify(
+                {
+                    PULPIT: PULPIT.value,
+                    PULPIT_NAME: PULPIT_NAME.value,
+                    FACULTY: FACULTY.value
+                }
+            )
+        })
+            .then(response => {
+                return response.json();
+            })
+            .then(pdate => {
+                console.log('POST.pdata', pdata);
+            }),then(Get());
+
+    }
+</script>
+</body>
+</html>

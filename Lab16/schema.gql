@@ -1,0 +1,66 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+
+type Faculty {
+  FACULTY: String!
+  FACULTY_NAME: String!
+  PULPITS: [Pulpit]
+}
+type Pulpit {
+  PULPIT: String!
+  PULPIT_NAME: String!
+  FACULTY: Faculty!
+}
+type Subject {
+  SUBJECT: String!
+  SUBJECT_NAME: String!
+  PULPIT: Pulpit!
+}
+type Teacher {
+  TEACHER: String!
+  TEACHER_NAME: String!
+  PULPIT: Pulpit!
+}
+
+input NewFaculty {
+  FACULTY: String!
+  FACULTY_NAME: String!
+}
+input NewPulpit {
+  PULPIT: String!
+  PULPIT_NAME: String!
+  FACULTY: String!
+}
+input NewSubject {
+  SUBJECT: String!
+  SUBJECT_NAME: String!
+  PULPIT: String!
+}
+input NewTeacher {
+  TEACHER: String!
+  TEACHER_NAME: String!
+  PULPIT: String!
+}
+
+type Query {
+  getFaculties(faculty: String): [Faculty!]!
+  getPulpits(pulpit: String): [Pulpit!]!
+  getSubjects(subject: String): [Subject!]!
+  getSubjectsByFaculties(faculty: String!): [Subject!]!
+  getTeachers(teacher: String): [Teacher!]!
+  getTeachersByFaculty(faculty: String!): [Teacher!]!
+}
+
+type Mutation {
+  setFaculty(faculty: NewFaculty!): Faculty
+  setPulpit(pulpit: NewPulpit!): Pulpit
+  setSubject(subject: NewSubject!): Subject
+  setTeacher(teacher: NewTeacher!): Teacher
+
+  delFaculty(id: String!): String
+  delPulpit(id: String!): String
+  delSubject(id: String!): String
+  delTeacher(id: String!): String
+}

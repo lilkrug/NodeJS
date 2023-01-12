@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Laba4</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+</head>
+<body>
+<div style="padding:20px" id="get_result"></div>
+<button onclick="Get()">GET</button>
+<script>
+    function Post(){
+        console.log('POST');
+        fetch('http://localhost:5000/api/db',{
+            method:'POST',mode:'no-cors',
+            headers:{'Content-Type':'application/json','Accept':'application/json'},
+            body: JSON.stringify({id:ID.value,name:Name.value,bday:BDay.value})
+        })
+            .then(response=>{return response.json();})
+            .then((pdata)=>{console.log('POST.pdata',pdata);})
+    }
+    function Get(){
+        console.log('GET');
+        fetch('http://localhost:5000/api/db',{
+            method:'GET',mode:'no-cors',
+            headers:{'Content-Type':'application/json','Accept':'application/json'}
+        })
+            .then(response=>{return response.json();})
+            .then((pdata)=>{console.log('pdata',pdata);
+                document.getElementById('get_result').innerHTML='';
+                pdata.forEach(el=>{document.getElementById('get_result').innerHTML+=(el.id+'.'+el.name+''+el.bday+'<br/>');});
+            });
+    }
+</script>
+<br/>
+<div style="padding:20px">
+    <div class="row">
+        <label class="col-2">Идентификатор</label>
+        <input type="number" class="col-3" id="ID" min="0"/>
+    </div>
+    <div class="row">
+        <label class="col-2">Имя</label>
+        <input type="text" class="col-3" id="Name" />
+    </div>
+    <div class="row">
+        <label class="col-2">Дата</label>
+        <input type="date" max= class="col-3" id="BDay" />
+    </div>
+    <div class="row">
+        <button class="col-2" onclick="Post()">POST</button>
+    </div>
+</div>
+<br/>
+<div style="padding:20px">
+    <div class="row">
+        <label class="col-2">ID</label>
+        <input type="number" name="Id" class="col-3" id="target" min="0" />
+    </div>
+    <div class='row'>
+        <label class='col-2'>New Name</label>
+        <input type="text" class='col-3' id='NewName' />
+    </div>
+    <div class='row'>
+        <label class='col-2'>New Birthday</label>
+        <input type="date" class='col-3' id='NewBday' />
+    </div>
+    <div class='row'>
+        <button class='col-2' onclick="Put()">PUT</button>
+    </div>
+</div>
+<div id="1"></div>
+<script>
+    function Put(){
+    console.log('PUT');
+    fetch('http://localhost:5000/api/db',{
+        method: 'PUT',
+        headers:{ 'Content-Type': 'application/json', 'Accept':'application/json'},
+        body: JSON.stringify({id:target.value, name:NewName.value, bday:NewBday.value })
+    })
+        .then(response=>{return response.json();})
+        .then((pdata)=>{console.log('PUT.pdata', pdata);});
+}
+// $(document).ready(function(){
+// $('#target').keyup(function(){
+// var Value = $('#target').val();
+// let d;
+// $.ajax({
+// url: 'http://localhost:5000/api/name',/* Куда пойдет запрос */
+// type: 'get',
+// dataType: 'text',
+// success: function(data){
+// d = JSON.parse(data);
+// let b = d[Value];
+// document.getElementById("NewName").innerHTML = b.name;
+// }
+// });
+//
+// $('#errmsg').empty();
+// $('#errmsg').text(Value);
+// });
+// });
+$( "#target" ).keyup(function() {
+    console.log('bebra');
+    var Value = $('#target').val();
+    let d;
+    $.ajax({
+        url: 'http://localhost:5000/api/db',/* Куда пойдет запрос */
+        type: 'get',
+        dataType: 'text',
+        success: function(data){
+            d = JSON.parse(data);
+            let b = d[Value];
+            $("#NewName").val(b.name);
+            $("#NewBday").val(b.bday);
+        }
+    });
+});
+</script>
+<br/>
+<div style="padding:20px">
+    <div class="row">
+        <label class="col-2">ID</label>
+        <input type="number" class="col-3" id="idToDel" min="0" />
+    </div>
+    <div class='row'>
+        <button class='col-2' onclick="Delete()">DELETE</button>
+    </div>
+</div>
+<script>
+    function Delete(){
+    console.log('DELETE');
+    var idDel = idToDel.value;
+    fetch(`http://localhost:5000/api/db?id=${idDel}`,{
+        method: 'DELETE',
+        headers:{ 'Content-Type': 'application/json', 'Accept':'application/json'}
+    })
+        .then(response=>{return response.json();})
+        .then((pdata)=>{console.log('DELETE.pdata', pdata);});
+}</script>
+</body>
+</html>

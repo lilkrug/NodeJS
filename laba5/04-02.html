@@ -1,0 +1,271 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        * {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        .row {
+            display: flex;
+            flex-direction: row;
+            height: 40px;
+            margin: -10px 0;
+            padding: 5px;
+            align-items: center;
+        }
+
+        input {
+            height: 25px;
+            border: 1px solid #dbdbdb;
+            border-radius: 4px;
+        }
+
+        p {
+            margin-right: 10px;
+        }
+
+        .container {
+            margin: 20px 0 50px 5px;
+        }
+
+        button {
+            height: 2em;
+            font-size: 1rem;
+            background-color: rgb(248, 248, 248);
+            color: #2f2f2f;
+            border: 1px solid #c4c4c4;
+            border-radius: 4px;
+            margin: 8px 5px;
+            cursor: pointer;
+        }
+
+        #commit_message {
+            margin-left: 12px;
+        }
+
+        #stats_result,
+        #select_result {
+            margin-left: 5px;
+        }
+
+        .error {
+            color: red;
+            font-size: 16px;
+            margin-left: 5px;
+        }
+
+        .ok {
+            color: lime;
+            font-size: 16px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+
+
+
+<body>
+    <div>
+        <div class="container">
+            <div id="select_result"></div>
+            <button onclick="Get()">GET</button>
+        </div>
+
+
+        <div id="insert_div" class="container">
+            <div class="row">
+                <p>ID</p>
+                <input id="ID" type="number" min="0">
+            </div>
+            <div class="row">
+                <p>Name</p>
+                <input id="Name" type="text">
+            </div>
+            <div class="row">
+                <p>BDay</p>
+                <input id="Bday" type="text" placeholder="DD-MM-YYYY">
+            </div>
+            <p id="insert_error" class="error"></p>
+            <button onclick="Post()">POST</button>
+        </div>
+
+
+        <div id="update_div" class="container">
+            <div class="row">
+                <p>ID</p>
+                <input id="ID_put" type="number" min="0" placeholder="Enter ID to update">
+            </div>
+            <div class="row">
+                <p>Name</p>
+                <input id="Name_put" type="text" placeholder="Enter new name">
+            </div>
+            <div class="row">
+                <p>BDay</p>
+                <input id="Bday_put" type="text" placeholder="DD-MM-YYYY">
+            </div>
+            <p id="update_error" class="error"></p>
+            <button onclick="Put()">PUT</button>
+        </div>
+
+
+        <div id="delete_div" class="container">
+            <div class="row">
+                <p>Enter ID to delete</p>
+                <input id="ID_del" type="number" min="0">
+            </div>
+            <p id="delete_error" class="error"></p>
+            <button onclick="Delete()">DELETE</button>
+        </div>
+
+
+        <div id="stats_div" class="container">
+            <button onclick="Stats()">STATS</button>
+            <div id="stats_result"></div>
+        </div>
+    </div>
+
+
+
+
+    <script>
+
+        function Get() {
+            fetch('http://localhost:5000/api/db', {
+                method: 'GET', mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+            }).then(response => { return response.json(); })
+                .then(data => { appendData(data); })
+        }
+
+
+
+        function Post() {
+            if (ID.value != "" && Name.value != "" && Bday.value != "") {
+                fetch('http://localhost:5000/api/db', {
+                    method: 'POST', mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ id: ID.value, name: Name.value, bday: Bday.value })
+                }).then(response => {
+                    let res = response.json().then(data => {
+                        console.log('status = ', data.status);
+                        if (data.status == "OK") {
+                            document.getElementById("insert_error").classList.add("ok");
+                            document.getElementById("insert_error").classList.remove("error");
+                            document.getElementById("insert_error").innerHTML = "OK! Data has been inserted.";
+                            return;
+                        }
+                        else {
+                            document.getElementById("insert_error").classList.remove("ok");
+                            document.getElementById("insert_error").classList.add("error");
+                            document.getElementById("insert_error").innerHTML = "Error! Enter non-recurring id.";
+                            return response.json();
+                        }
+                    });
+                });
+            }
+            else
+                document.getElementById("insert_error").innerHTML = "Error! Fill all inputs.";
+        }
+
+
+
+        function Put() {
+            if (ID_put.value != "" && Name_put.value != "" && Bday_put.value != "") {
+                fetch('http://localhost:5000/api/db', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ id: ID_put.value, name: Name_put.value, bday: Bday_put.value })
+                }).then(response => {
+                    let res = response.json().then(data => {
+                        console.log('status = ', data.status);
+                        if (data.status == "Error") {
+                            document.getElementById("update_error").classList.remove("ok");
+                            document.getElementById("update_error").classList.add("error");
+                            document.getElementById("update_error").innerHTML = "Error! Enter existing id.";
+                            return;
+                            
+                        }
+                        else {
+                            document.getElementById("update_error").classList.add("ok");
+                            document.getElementById("update_error").classList.remove("error");
+                            document.getElementById("update_error").innerHTML = "OK! Data has been inserted.";
+                            return;
+                        }
+                    });
+                })
+            }
+            else {
+                document.getElementById("update_error").innerHTML = "Error! Fill all inputs.";
+            }
+        }
+
+
+
+        function Delete() {
+            if (ID_del.value != "") {
+                fetch('http://localhost:5000/api/db?id=' + ID_del.value, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+                }).then(response => { 
+                    let res = response.json().then(data => {
+                        console.log('status = ', data.status);
+                        if (data.status == "Error") {
+                            document.getElementById("delete_error").classList.remove("ok");
+                            document.getElementById("delete_error").classList.add("error");
+                            document.getElementById("delete_error").innerHTML = "Error! Enter existing id.";
+                            return;
+                            
+                        }
+                        else {
+                            document.getElementById("delete_error").classList.add("ok");
+                            document.getElementById("delete_error").classList.remove("error");
+                            document.getElementById("delete_error").innerHTML = "OK! Data has been deleted.";
+                            return;
+                        }
+                    });
+                })
+            }
+            else {
+                document.getElementById("delete_error").innerHTML = "Error! Fill all inputs.";
+            }
+        }
+
+
+
+        function Stats() {
+            fetch('http://localhost:5000/api/ss', {
+                method: 'GET',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+            }).then(response => { return response.json(); })
+                .then(data => { appendStats(data); })
+        }
+
+
+
+
+
+        function appendData(data) {
+            var mainContainer = document.getElementById("select_result");
+            mainContainer.innerHTML = "";
+            for (var i = 0; i < data.length; i++) {
+                var div = document.createElement("div");
+                div.innerHTML = data[i].id + '. Name: ' + data[i].name + '; Bday: ' + data[i].bday;
+                mainContainer.appendChild(div);
+            }
+        }
+
+
+        function appendStats(data) {
+            var mainContainer = document.getElementById("stats_result");
+            mainContainer.innerHTML = "Start time: " + data.start + "</br>Finish time: "
+                + data.finish + "</br>Requests: " + data.requests + "</br>Commits: " + data.commits;
+        }
+    </script>
+
+
+</body>
+
+</html>

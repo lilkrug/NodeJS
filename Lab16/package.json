@@ -1,0 +1,17 @@
+{
+  "name": "lab16",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon 16-01.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "bebra",
+  "license": "ISC",
+  "dependencies": {
+    "graphql": "^15.7.2",
+    "msnodesqlv8": "^2.7.0",
+    "mssql": "^7.2.1"
+  }
+}

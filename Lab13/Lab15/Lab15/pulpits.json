@@ -1,0 +1,7 @@
+[
+  { "pulpit": "VS1PULPIT", "pulpit_name": "VS1PULPIT","faculty":"VS" },
+{ "pulpit": "VS2PULPIT", "pulpit_name": "VS2PULPIT","faculty":"VS" },
+{ "pulpit": "LB1PULPIT", "pulpit_name": "LB1PULPIT","faculty":"LB" },
+{ "pulpit": "YY1PULPIT", "pulpit_name": "YY1PULPIT","faculty":"YY" },
+{ "pulpit": "VS3PULPIT", "pulpit_name": "VS3PULPIT","faculty":"VS" }
+]

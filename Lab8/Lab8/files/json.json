@@ -1,0 +1,8 @@
+{
+  "_comment":"aboba",
+  "x":1,
+  "y":2,
+  "s":"message",
+  "m":["a","b","c","d"],
+  "o":{"surname":"Kruglik","name":"Lesha"}
+}

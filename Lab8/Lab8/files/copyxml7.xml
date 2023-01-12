@@ -1,0 +1,22 @@
+------WebKitFormBoundaryUM6PUAeARyHx44IN
+Content-Disposition: form-data; name="file"; filename="xml7.xml"
+Content-Type: text/xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <exams>
+    <subject>
+      <name>NodeJS</name>
+      <mark>8</mark>
+    </subject>
+    <subject>
+      <name>OS</name>
+      <mark>8</mark>
+    </subject>
+  </exams>
+</root>
+------WebKitFormBoundaryUM6PUAeARyHx44IN
+Content-Disposition: form-data; name="upload"
+
+Upload
+------WebKitFormBoundaryUM6PUAeARyHx44IN--
